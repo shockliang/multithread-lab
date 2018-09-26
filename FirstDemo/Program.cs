@@ -13,15 +13,20 @@ namespace FirstDemo
             }
         }
 
+        public static void Write(object o)
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                Console.Write(o);
+            }
+        }
+
         static void Main(string[] args)
         {
-            // Making new task vairabe and start it.
-            Task.Factory.StartNew(() => Write('.'));
-
-            var t = new Task(() => Write('?'));
+            var t = new Task(Write, "hello");
             t.Start();
 
-            Write('-');
+            Task.Factory.StartNew(Write, 123);
 
             Console.WriteLine("Hello World!");
             Console.ReadKey();
