@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstDemo", "FirstDemo\Firs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CancellingTasks", "CancellingTasks\CancellingTasks.csproj", "{99DA037E-5289-447A-BB44-7FCC2702E88E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaitingForTimeToPass", "WaitingForTimeToPass\WaitingForTimeToPass.csproj", "{4E8330EF-85F1-42A7-AA82-1E043E861225}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{99DA037E-5289-447A-BB44-7FCC2702E88E}.Release|x64.Build.0 = Release|Any CPU
 		{99DA037E-5289-447A-BB44-7FCC2702E88E}.Release|x86.ActiveCfg = Release|Any CPU
 		{99DA037E-5289-447A-BB44-7FCC2702E88E}.Release|x86.Build.0 = Release|Any CPU
+		{4E8330EF-85F1-42A7-AA82-1E043E861225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E8330EF-85F1-42A7-AA82-1E043E861225}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E8330EF-85F1-42A7-AA82-1E043E861225}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4E8330EF-85F1-42A7-AA82-1E043E861225}.Debug|x64.Build.0 = Debug|Any CPU
+		{4E8330EF-85F1-42A7-AA82-1E043E861225}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4E8330EF-85F1-42A7-AA82-1E043E861225}.Debug|x86.Build.0 = Debug|Any CPU
+		{4E8330EF-85F1-42A7-AA82-1E043E861225}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E8330EF-85F1-42A7-AA82-1E043E861225}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E8330EF-85F1-42A7-AA82-1E043E861225}.Release|x64.ActiveCfg = Release|Any CPU
+		{4E8330EF-85F1-42A7-AA82-1E043E861225}.Release|x64.Build.0 = Release|Any CPU
+		{4E8330EF-85F1-42A7-AA82-1E043E861225}.Release|x86.ActiveCfg = Release|Any CPU
+		{4E8330EF-85F1-42A7-AA82-1E043E861225}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
