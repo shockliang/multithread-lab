@@ -8,33 +8,27 @@ namespace CancellingTasks
     {
         static void Main(string[] args)
         {
-            var cts = new CancellationTokenSource();
-            var token = cts.Token;
+            var planned = new CancellationTokenSource();
+            var prventative = new CancellationTokenSource();
+            var emergency = new CancellationTokenSource();
 
-            token.Register(() =>
-            {
-                Console.WriteLine("Cancelation has been requested");
-            });
+            var paranoid = CancellationTokenSource.CreateLinkedTokenSource(
+                planned.Token, prventative.Token, emergency.Token);
 
-            var t = new Task(() =>
+            Task.Factory.StartNew(() =>
             {
                 int i = 0;
                 while (true)
                 {
-                    token.ThrowIfCancellationRequested();
+                    paranoid.Token.ThrowIfCancellationRequested();
                     Console.WriteLine($"{i++}\t");
+                    Thread.Sleep(100);
                 }
-            }, token);
-            t.Start();
+            }, paranoid.Token);
 
-            Task.Factory.StartNew(() =>
-            {
-                token.WaitHandle.WaitOne();
-                Console.WriteLine("Wait handle released, cancelation was requested");
-            });
 
             Console.ReadKey();
-            cts.Cancel();
+            emergency.Cancel();
             Console.ReadKey();
         }
     }
