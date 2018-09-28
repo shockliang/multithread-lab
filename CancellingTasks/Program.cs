@@ -10,6 +10,12 @@ namespace CancellingTasks
         {
             var cts = new CancellationTokenSource();
             var token = cts.Token;
+
+            token.Register(() =>
+            {
+                Console.WriteLine("Cancelation has been requested");
+            });
+
             var t = new Task(() =>
             {
                 int i = 0;
@@ -20,6 +26,12 @@ namespace CancellingTasks
                 }
             }, token);
             t.Start();
+
+            Task.Factory.StartNew(() =>
+            {
+                token.WaitHandle.WaitOne();
+                Console.WriteLine("Wait handle released, cancelation was requested");
+            });
 
             Console.ReadKey();
             cts.Cancel();
