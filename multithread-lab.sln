@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaitingForTimeToPass", "Wai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaitingForTasks", "WaitingForTasks\WaitingForTasks.csproj", "{ABB6919A-DB86-4650-9A81-7A4ABECAE9CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionHandling", "ExceptionHandling\ExceptionHandling.csproj", "{B9D9082F-341C-4621-B57E-1D88299F809E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +74,17 @@ Global
 		{ABB6919A-DB86-4650-9A81-7A4ABECAE9CE}.Release|x64.Build.0 = Release|Any CPU
 		{ABB6919A-DB86-4650-9A81-7A4ABECAE9CE}.Release|x86.ActiveCfg = Release|Any CPU
 		{ABB6919A-DB86-4650-9A81-7A4ABECAE9CE}.Release|x86.Build.0 = Release|Any CPU
+		{B9D9082F-341C-4621-B57E-1D88299F809E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9D9082F-341C-4621-B57E-1D88299F809E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9D9082F-341C-4621-B57E-1D88299F809E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B9D9082F-341C-4621-B57E-1D88299F809E}.Debug|x64.Build.0 = Debug|Any CPU
+		{B9D9082F-341C-4621-B57E-1D88299F809E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B9D9082F-341C-4621-B57E-1D88299F809E}.Debug|x86.Build.0 = Debug|Any CPU
+		{B9D9082F-341C-4621-B57E-1D88299F809E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9D9082F-341C-4621-B57E-1D88299F809E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9D9082F-341C-4621-B57E-1D88299F809E}.Release|x64.ActiveCfg = Release|Any CPU
+		{B9D9082F-341C-4621-B57E-1D88299F809E}.Release|x64.Build.0 = Release|Any CPU
+		{B9D9082F-341C-4621-B57E-1D88299F809E}.Release|x86.ActiveCfg = Release|Any CPU
+		{B9D9082F-341C-4621-B57E-1D88299F809E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
