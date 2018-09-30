@@ -23,6 +23,12 @@ namespace CriticalSections
         {
             balance -= amount;
         }
+
+        public void Tranfer(BankAccount where, int amount)
+        {
+            Balance -= amount;
+            where.Balance += amount;
+        }
     }
 
     class Program
@@ -31,36 +37,75 @@ namespace CriticalSections
 
         static void Main(string[] args)
         {
-            LockRecursion(5);
+            var tasks = new List<Task>();
+            var ba = new BankAccount();
+            var ba2 = new BankAccount();
+
+            var mutex = new Mutex();
+            var mutex2 = new Mutex();
+
+            for (int i = 0; i < 10; i++)
+            {
+                tasks.Add(Task.Factory.StartNew(() =>
+                {
+                    for (int j = 0; j < 1000; j++)
+                    {
+                        bool haveLock = mutex.WaitOne();
+                        try
+                        {
+                            ba.Deposit(1);
+                        }
+                        finally
+                        {
+                            if (haveLock) mutex.ReleaseMutex();
+                        }
+                    }
+                }));
+
+                tasks.Add(Task.Factory.StartNew(() =>
+                {
+                    for (int j = 0; j < 1000; j++)
+                    {
+                        bool haveLock = mutex2.WaitOne();
+                        try
+                        {
+                            ba2.Deposit(1);
+                        }
+                        finally
+                        {
+                            if (haveLock) mutex2.ReleaseMutex();
+                        }
+                    }
+                }));
+
+                tasks.Add(Task.Factory.StartNew(() =>
+                {
+                    for (int j = 0; j < 1000; j++)
+                    {
+                        bool haveLock = WaitHandle.WaitAll(new[] { mutex, mutex2 });
+                        try
+                        {
+                            ba.Tranfer(ba2, 1);
+                        }
+                        finally
+                        {
+                            if(haveLock) 
+                            {
+                                mutex.ReleaseMutex();
+                                mutex2.ReleaseMutex();
+                            }
+                        }
+                    }
+                }));
+            }
+
+            Task.WaitAll(tasks.ToArray());
+
+            Console.WriteLine($"Final balance 1 is {ba.Balance}");
+            Console.WriteLine($"Final balance 2 is {ba2.Balance}");
 
             Console.WriteLine("Main program done.");
             Console.ReadKey();
-        }
-
-        public static void LockRecursion(int x)
-        {
-            var lockTaken = false;
-            try
-            {
-                sl.Enter(ref lockTaken);
-            }
-            catch (LockRecursionException ex)
-            {
-                Console.WriteLine($"Exception: {ex}");
-            }
-            finally
-            {
-                if (lockTaken)
-                {
-                    Console.WriteLine($"Took a lock, x = {x}");
-                    LockRecursion(x - 1);
-                    sl.Exit();
-                }
-                else
-                {
-                    Console.WriteLine($"Failed to take a lock, x = {x}");
-                }
-            }
         }
     }
 }
