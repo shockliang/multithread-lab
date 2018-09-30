@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaitingForTasks", "WaitingF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionHandling", "ExceptionHandling\ExceptionHandling.csproj", "{B9D9082F-341C-4621-B57E-1D88299F809E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriticalSections", "CriticalSections\CriticalSections.csproj", "{CE755AE6-EAFF-43BD-8230-9138FDCE4830}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,5 +88,17 @@ Global
 		{B9D9082F-341C-4621-B57E-1D88299F809E}.Release|x64.Build.0 = Release|Any CPU
 		{B9D9082F-341C-4621-B57E-1D88299F809E}.Release|x86.ActiveCfg = Release|Any CPU
 		{B9D9082F-341C-4621-B57E-1D88299F809E}.Release|x86.Build.0 = Release|Any CPU
+		{CE755AE6-EAFF-43BD-8230-9138FDCE4830}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE755AE6-EAFF-43BD-8230-9138FDCE4830}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE755AE6-EAFF-43BD-8230-9138FDCE4830}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CE755AE6-EAFF-43BD-8230-9138FDCE4830}.Debug|x64.Build.0 = Debug|Any CPU
+		{CE755AE6-EAFF-43BD-8230-9138FDCE4830}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CE755AE6-EAFF-43BD-8230-9138FDCE4830}.Debug|x86.Build.0 = Debug|Any CPU
+		{CE755AE6-EAFF-43BD-8230-9138FDCE4830}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE755AE6-EAFF-43BD-8230-9138FDCE4830}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE755AE6-EAFF-43BD-8230-9138FDCE4830}.Release|x64.ActiveCfg = Release|Any CPU
+		{CE755AE6-EAFF-43BD-8230-9138FDCE4830}.Release|x64.Build.0 = Release|Any CPU
+		{CE755AE6-EAFF-43BD-8230-9138FDCE4830}.Release|x86.ActiveCfg = Release|Any CPU
+		{CE755AE6-EAFF-43BD-8230-9138FDCE4830}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
