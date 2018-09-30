@@ -1,31 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CriticalSections
 {
     class BankAccount
     {
-        private object padlock = new object();
-        public int Balance { get; private set; }
+        private int balance;
+        public int Balance
+        {
+            get { return balance; }
+            private set { balance = value; }
+        }
 
         public void Deposit(int amount)
         {
             // += 
             // op1: tmp <- get_Balance() + amount
             // op2: set_Balance(tmp)
-            lock (padlock)
-            {
-                Balance += amount;
-            }
+            Interlocked.Add(ref balance, amount);
         }
 
         public void Withdraw(int amount)
         {
-            lock (padlock)
-            {
-                Balance -= amount;
-            }
+            Interlocked.Add(ref balance, -amount);
         }
     }
 

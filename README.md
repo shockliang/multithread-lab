@@ -18,4 +18,10 @@
 
 
 ## Critical Sections ##
+* `Interlocked.Add` to add new value to origin one.
+* `Interlocked.Increment` to increment one to origin value.
+* `Interlocked.Decrement` to decrement one to origin value.
+* `Interlocked.MemoryBarrier` shorthand for `Thread.MemoryBarrier()`.
+    * Synchronizes memory access as follows.
+* `Interlocked.Exchange` sets a variable to a specified value as an atomic operation.
 
