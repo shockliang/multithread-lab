@@ -27,56 +27,40 @@ namespace CriticalSections
 
     class Program
     {
+        private static SpinLock sl = new SpinLock(true);
+
         static void Main(string[] args)
         {
-            var tasks = new List<Task>();
-            var ba = new BankAccount();
-
-            var sl = new SpinLock();
-
-            for (int i = 0; i < 10; i++)
-            {
-                tasks.Add(Task.Factory.StartNew(() =>
-                {
-                    for (int j = 0; j < 1000; j++)
-                    {
-                        var lockTaken = false;
-                        try
-                        {
-                            sl.Enter(ref lockTaken);
-                            ba.Deposit(100);
-                        }
-                        finally
-                        {
-                            if (lockTaken) sl.Exit();
-                        }
-                    }
-                }));
-
-                tasks.Add(Task.Factory.StartNew(() =>
-                {
-                    for (int j = 0; j < 1000; j++)
-                    {
-                        var lockTaken = false;
-                        try
-                        {
-                            sl.Enter(ref lockTaken);
-                            ba.Withdraw(100);
-                        }
-                        finally
-                        {
-                            if (lockTaken) sl.Exit();
-                        }
-                    }
-                }));
-            }
-
-            Task.WaitAll(tasks.ToArray());
-
-            Console.WriteLine($"Final balance is {ba.Balance}");
+            LockRecursion(5);
 
             Console.WriteLine("Main program done.");
             Console.ReadKey();
+        }
+
+        public static void LockRecursion(int x)
+        {
+            var lockTaken = false;
+            try
+            {
+                sl.Enter(ref lockTaken);
+            }
+            catch (LockRecursionException ex)
+            {
+                Console.WriteLine($"Exception: {ex}");
+            }
+            finally
+            {
+                if (lockTaken)
+                {
+                    Console.WriteLine($"Took a lock, x = {x}");
+                    LockRecursion(x - 1);
+                    sl.Exit();
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to take a lock, x = {x}");
+                }
+            }
         }
     }
 }

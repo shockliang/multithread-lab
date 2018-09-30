@@ -25,4 +25,5 @@
     * Synchronizes memory access as follows.
 * `Interlocked.Exchange` sets a variable to a specified value as an atomic operation.
 * `SpinLock` object for atomic operation that until you are able to execute.
+    * `SpinLock(true)` enable thread owner tracking.
 
