@@ -33,29 +33,62 @@ namespace CriticalSections
 
     class Program
     {
-        private static Mutex mutex;
+        static ReaderWriterLockSlim padlock = new ReaderWriterLockSlim();
+        static Random random = new Random();
+
         static void Main(string[] args)
         {
-            const string appName = "MyApp";
-            var hasBeenCreated = false;
+            int x = 0;
+
+            var tasks = new List<Task>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                tasks.Add(Task.Factory.StartNew(() =>
+                {
+                    // padlock.EnterReadLock();
+                    padlock.EnterUpgradeableReadLock();
+
+                    if (i % 2 == 0)
+                    {
+                        padlock.EnterWriteLock();
+                        x = 1234;
+                        padlock.ExitWriteLock();
+                    }
+
+                    Console.WriteLine($"Entered read lock x = {x}");
+                    Thread.Sleep(5000);
+
+                    padlock.ExitUpgradeableReadLock();
+                    // padlock.ExitReadLock();
+                    Console.WriteLine($"Exited read lock, x = {x}");
+                }));
+            }
+
             try
             {
-                mutex = Mutex.OpenExisting(appName);
-                Console.WriteLine($"Sorry, {appName} is already running");
+                Task.WaitAll(tasks.ToArray());
             }
-            catch (WaitHandleCannotBeOpenedException)
+            catch (AggregateException ae)
             {
-                Console.WriteLine("We can run the program just fine.");
-                mutex = new Mutex(false, appName, out hasBeenCreated);
+                ae.Handle(e =>
+                {
+                    Console.WriteLine(e);
+                    return true;
+                });
             }
-            catch(Exception ex)
+
+            while (true)
             {
-                Console.WriteLine(ex.ToString());
+                Console.ReadKey();
+                padlock.EnterWriteLock();
+                Console.WriteLine("Write lock acquired");
+
+                x = random.Next(10);
+                Console.WriteLine($"Set x = {x}");
+                padlock.ExitWriteLock();
+                Console.WriteLine("Write lock released");
             }
-            
-            Console.ReadKey();
-            if(hasBeenCreated)
-                mutex.ReleaseMutex();
         }
     }
 }
