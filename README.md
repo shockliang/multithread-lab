@@ -33,4 +33,5 @@
 
 
 ## Concurrent Collections ##
+* `ConcurrentDictionary` asking to count that's an expensive operation.  
 
