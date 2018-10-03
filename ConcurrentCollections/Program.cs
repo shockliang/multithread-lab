@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ConcurrentCollections
@@ -9,49 +10,27 @@ namespace ConcurrentCollections
     {
         static void Main(string[] args)
         {
-            var q = new ConcurrentQueue<int>();
-            q.Enqueue(1);
-            q.Enqueue(2);
+            var stack = new ConcurrentStack<int>();
+            stack.Push(1);
+            stack.Push(2);
+            stack.Push(3);
+            stack.Push(4);
 
-            if (q.TryDequeue(out int result))
+            if (stack.TryPeek(out int result))
             {
-                Console.WriteLine($"Removed element {result}");
+                Console.WriteLine($"{result} is on the top");
             }
 
-            if (q.TryPeek(out result))
+            if (stack.TryPop(out result))
             {
-                Console.WriteLine($"Front element is {result}");
+                Console.WriteLine($"Popped {result}");
             }
 
-            var tasks = new List<Task>();
-
-            for (int i = 0; i < 10; i++)
+            var itmes = new int[5];
+            if (stack.TryPopRange(itmes) > 0)
             {
-                tasks.Add(Task.Factory.StartNew(() =>
-                {
-                    Console.WriteLine($"Enqueue:{i}");
-                    q.Enqueue(i);
-                }));
-            }
-
-            for (int i = 0; i < 10; i++)
-            {
-                tasks.Add(Task.Factory.StartNew(() =>
-                {
-                    if (q.TryDequeue(out int element))
-                    {
-                        Console.WriteLine($"Try dequeue:{element}");
-                    }
-                }));
-            }
-
-            try
-            {
-                Task.WaitAll(tasks.ToArray());
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
+                var text = String.Join(", ", itmes.Select(i => i.ToString()));
+                Console.WriteLine($"Popped these items: {text}");
             }
         }
     }
