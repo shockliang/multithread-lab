@@ -33,5 +33,6 @@
 
 
 ## Concurrent Collections ##
-* `ConcurrentDictionary` asking to count that's an expensive operation.  
+* `ConcurrentDictionary` asking to count that's an expensive operation.
+* `ConcurrentQueue`
 

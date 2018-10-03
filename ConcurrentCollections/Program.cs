@@ -1,48 +1,58 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ConcurrentCollections
 {
     class Program
     {
-        private static ConcurrentDictionary<string, string> capitals =
-            new ConcurrentDictionary<string, string>();
         static void Main(string[] args)
         {
-            Task.Factory.StartNew(AddParis);
-            AddParis();
+            var q = new ConcurrentQueue<int>();
+            q.Enqueue(1);
+            q.Enqueue(2);
 
-            capitals["Russia"] = "Leningrad";
-            capitals.AddOrUpdate("Russia", "Moscow", (key, old) => old + " --> Moscow");
-            Console.WriteLine($"The capital of Russia is {capitals["Russia"]}");
-
-            // capitals["Sweden"] = "Uppsala";
-            var capOfSweden = capitals.GetOrAdd("Sweden", "Stockholm");
-            Console.WriteLine($"The capital of Sweden is {capOfSweden}");
-
-            const string toRemove = "Russia";
-            var didRemove = capitals.TryRemove(toRemove, out string removed);
-            if (didRemove)
+            if (q.TryDequeue(out int result))
             {
-                Console.WriteLine($"We just removed {removed}");
-            }
-            else
-            {
-                Console.WriteLine($"Failed to remove the capital of {toRemove}");
+                Console.WriteLine($"Removed element {result}");
             }
 
-            foreach (var kvp in capitals)
+            if (q.TryPeek(out result))
             {
-                Console.WriteLine($" - {kvp.Value} is the capital of {kvp.Key}");
+                Console.WriteLine($"Front element is {result}");
             }
-        }
 
-        static void AddParis()
-        {
-            var success = capitals.TryAdd("France", "Paris");
-            var who = Task.CurrentId.HasValue ? $"Task :{Task.CurrentId}" : "Main thread";
-            Console.WriteLine($"{who} {(success ? "added" : "did not add")} the element");
+            var tasks = new List<Task>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                tasks.Add(Task.Factory.StartNew(() =>
+                {
+                    Console.WriteLine($"Enqueue:{i}");
+                    q.Enqueue(i);
+                }));
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                tasks.Add(Task.Factory.StartNew(() =>
+                {
+                    if (q.TryDequeue(out int element))
+                    {
+                        Console.WriteLine($"Try dequeue:{element}");
+                    }
+                }));
+            }
+
+            try
+            {
+                Task.WaitAll(tasks.ToArray());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
     }
 }
