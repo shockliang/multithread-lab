@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,31 +7,53 @@ namespace ConcurrentCollections
 {
     class Program
     {
+        static BlockingCollection<int> messages =
+            new BlockingCollection<int>(new ConcurrentBag<int>(), 5);
+
+        private static CancellationTokenSource cts = new CancellationTokenSource();
+        private static Random random = new Random();
+
         static void Main(string[] args)
         {
-            var bag = new ConcurrentBag<int>();
-            var tasks = new List<Task>();
-            var counter = 0;
-            for (int i = 0; i < 10; i++)
-            {
-                tasks.Add(Task.Factory.StartNew(() =>
-                {
-                    bag.Add(Interlocked.Increment(ref counter));
-                    Console.WriteLine($"Task - {Task.CurrentId} has added {counter}");
+            Task.Factory.StartNew(ProduceAndConsume, cts.Token);
+            Console.ReadKey();
+            cts.Cancel();
+        }
+        static void ProduceAndConsume()
+        {
+            var producer = Task.Factory.StartNew(RunProducer);
+            var consumer = Task.Factory.StartNew(RunConsumer);
 
-                    if(bag.TryPeek(out int result))
-                    {
-                        Console.WriteLine($"Task - {Task.CurrentId} has peeked the value {result}");
-                    }
-                    
-                }));
+            try
+            {
+                Task.WaitAll(new[] { producer, consumer }, cts.Token);
             }
-
-            Task.WaitAll(tasks.ToArray());
-
-            if(bag.TryTake(out int last))
+            catch (AggregateException ae)
             {
-                Console.WriteLine($"Got the {last}");
+                Console.WriteLine(ae.InnerException);
+                ae.Handle(e => true);
+            }
+        }
+
+        private static void RunProducer()
+        {
+            while (true)
+            {
+                cts.Token.ThrowIfCancellationRequested();
+                int i = random.Next(100);
+                messages.Add(i);
+                Console.WriteLine($"+ {i}\t");
+                Thread.Sleep(random.Next(1000));
+            }
+        }
+
+        private static void RunConsumer()
+        {
+            foreach (var item in messages.GetConsumingEnumerable())
+            {
+                cts.Token.ThrowIfCancellationRequested();
+                Console.WriteLine($"- {item}\t");
+                Thread.Sleep(random.Next(1000));
             }
         }
     }

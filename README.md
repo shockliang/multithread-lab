@@ -37,3 +37,4 @@
 * `ConcurrentQueue`
 * `ConcurrentStack` provides the `TryPopRange` to pop items at once.
 * `ConcurrentBag` provides no ordering guarantees.
+* `BlockingCollection` 
