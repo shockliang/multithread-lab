@@ -37,4 +37,7 @@
 * `ConcurrentQueue`
 * `ConcurrentStack` provides the `TryPopRange` to pop items at once.
 * `ConcurrentBag` provides no ordering guarantees.
-* `BlockingCollection` 
+* `BlockingCollection` is a wrapper around one of the `IProducerConsumerCollection` classes.
+    * Provides blocking and bounding capabilites.
+
+## Task Coordination ##

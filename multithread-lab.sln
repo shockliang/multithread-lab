@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriticalSections", "Critica
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConcurrentCollections", "ConcurrentCollections\ConcurrentCollections.csproj", "{B714E6CC-675F-465C-B89D-4346FA268EDD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskCoordination", "TaskCoordination\TaskCoordination.csproj", "{8C2E6C74-8294-4E97-8DAA-42F400EE321F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -114,5 +116,17 @@ Global
 		{B714E6CC-675F-465C-B89D-4346FA268EDD}.Release|x64.Build.0 = Release|Any CPU
 		{B714E6CC-675F-465C-B89D-4346FA268EDD}.Release|x86.ActiveCfg = Release|Any CPU
 		{B714E6CC-675F-465C-B89D-4346FA268EDD}.Release|x86.Build.0 = Release|Any CPU
+		{8C2E6C74-8294-4E97-8DAA-42F400EE321F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C2E6C74-8294-4E97-8DAA-42F400EE321F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C2E6C74-8294-4E97-8DAA-42F400EE321F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8C2E6C74-8294-4E97-8DAA-42F400EE321F}.Debug|x64.Build.0 = Debug|Any CPU
+		{8C2E6C74-8294-4E97-8DAA-42F400EE321F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8C2E6C74-8294-4E97-8DAA-42F400EE321F}.Debug|x86.Build.0 = Debug|Any CPU
+		{8C2E6C74-8294-4E97-8DAA-42F400EE321F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C2E6C74-8294-4E97-8DAA-42F400EE321F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C2E6C74-8294-4E97-8DAA-42F400EE321F}.Release|x64.ActiveCfg = Release|Any CPU
+		{8C2E6C74-8294-4E97-8DAA-42F400EE321F}.Release|x64.Build.0 = Release|Any CPU
+		{8C2E6C74-8294-4E97-8DAA-42F400EE321F}.Release|x86.ActiveCfg = Release|Any CPU
+		{8C2E6C74-8294-4E97-8DAA-42F400EE321F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
