@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ConcurrentCollections
@@ -10,27 +11,29 @@ namespace ConcurrentCollections
     {
         static void Main(string[] args)
         {
-            var stack = new ConcurrentStack<int>();
-            stack.Push(1);
-            stack.Push(2);
-            stack.Push(3);
-            stack.Push(4);
-
-            if (stack.TryPeek(out int result))
+            var bag = new ConcurrentBag<int>();
+            var tasks = new List<Task>();
+            var counter = 0;
+            for (int i = 0; i < 10; i++)
             {
-                Console.WriteLine($"{result} is on the top");
+                tasks.Add(Task.Factory.StartNew(() =>
+                {
+                    bag.Add(Interlocked.Increment(ref counter));
+                    Console.WriteLine($"Task - {Task.CurrentId} has added {counter}");
+
+                    if(bag.TryPeek(out int result))
+                    {
+                        Console.WriteLine($"Task - {Task.CurrentId} has peeked the value {result}");
+                    }
+                    
+                }));
             }
 
-            if (stack.TryPop(out result))
-            {
-                Console.WriteLine($"Popped {result}");
-            }
+            Task.WaitAll(tasks.ToArray());
 
-            var itmes = new int[5];
-            if (stack.TryPopRange(itmes) > 0)
+            if(bag.TryTake(out int last))
             {
-                var text = String.Join(", ", itmes.Select(i => i.ToString()));
-                Console.WriteLine($"Popped these items: {text}");
+                Console.WriteLine($"Got the {last}");
             }
         }
     }
