@@ -41,3 +41,6 @@
     * Provides blocking and bounding capabilites.
 
 ## Task Coordination ##
+* `ContinueWith` api provides to continue next task.
+* `Task.Factory.ContinueWhenAll` provides api to waiting for all tasks.
+* `Task.Factory.ContinueWhenAny` provides api to waiting any first completed task.
