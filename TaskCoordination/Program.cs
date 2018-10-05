@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TaskCoordination
@@ -7,22 +8,40 @@ namespace TaskCoordination
     {
         static void Main(string[] args)
         {
-            var task = Task.Factory.StartNew(() => "Task 1");
-            var task2 = Task.Factory.StartNew(() => "Task 2");
-            
-            var task3 = Task.Factory.ContinueWhenAll(new [] { task, task2 },
-                tasks =>
+            var parent = new Task(() =>
+            {
+                var child = new Task(() =>
                 {
-                    Console.WriteLine($"Tasks completed:");
-                    foreach (var t in tasks)
-                    {
-                        Console.WriteLine($" - {t.Result}");
-                    }
-                    Console.WriteLine($"All tasks done");
-                });
+                    Console.WriteLine("Child task starting.");
+                    Thread.Sleep(3000);
+                    // throw new Exception();
+                    Console.WriteLine("Child task finshing.");
+                }, TaskCreationOptions.AttachedToParent);
 
-            task3.Wait();
+                var completionHandle = child.ContinueWith(t =>
+                {
+                    Console.WriteLine($"Horray! Task {t.Id}'s state is {t.Status}");
+                }, TaskContinuationOptions.AttachedToParent |
+                    TaskContinuationOptions.OnlyOnRanToCompletion);
 
+                var failHandler = child.ContinueWith(t =>
+                {
+                    Console.WriteLine($"Oops! task {t.Id}'s state is {t.Status}");
+                }, TaskContinuationOptions.AttachedToParent |
+                    TaskContinuationOptions.OnlyOnFaulted);
+
+                child.Start();
+            });
+            parent.Start();
+
+            try
+            {
+                parent.Wait();
+            }
+            catch (AggregateException ae)
+            {
+                ae.Handle(e => true);
+            }
             Console.ReadKey();
         }
     }
