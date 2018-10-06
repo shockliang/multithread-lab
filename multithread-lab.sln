@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConcurrentCollections", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskCoordination", "TaskCoordination\TaskCoordination.csproj", "{8C2E6C74-8294-4E97-8DAA-42F400EE321F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoResetEventSample", "AutoResetEventSample\AutoResetEventSample.csproj", "{2186DF3A-1AF4-4DD2-B701-F5B997448A0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,5 +130,17 @@ Global
 		{8C2E6C74-8294-4E97-8DAA-42F400EE321F}.Release|x64.Build.0 = Release|Any CPU
 		{8C2E6C74-8294-4E97-8DAA-42F400EE321F}.Release|x86.ActiveCfg = Release|Any CPU
 		{8C2E6C74-8294-4E97-8DAA-42F400EE321F}.Release|x86.Build.0 = Release|Any CPU
+		{2186DF3A-1AF4-4DD2-B701-F5B997448A0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2186DF3A-1AF4-4DD2-B701-F5B997448A0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2186DF3A-1AF4-4DD2-B701-F5B997448A0E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2186DF3A-1AF4-4DD2-B701-F5B997448A0E}.Debug|x64.Build.0 = Debug|Any CPU
+		{2186DF3A-1AF4-4DD2-B701-F5B997448A0E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2186DF3A-1AF4-4DD2-B701-F5B997448A0E}.Debug|x86.Build.0 = Debug|Any CPU
+		{2186DF3A-1AF4-4DD2-B701-F5B997448A0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2186DF3A-1AF4-4DD2-B701-F5B997448A0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2186DF3A-1AF4-4DD2-B701-F5B997448A0E}.Release|x64.ActiveCfg = Release|Any CPU
+		{2186DF3A-1AF4-4DD2-B701-F5B997448A0E}.Release|x64.Build.0 = Release|Any CPU
+		{2186DF3A-1AF4-4DD2-B701-F5B997448A0E}.Release|x86.ActiveCfg = Release|Any CPU
+		{2186DF3A-1AF4-4DD2-B701-F5B997448A0E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
