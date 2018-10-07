@@ -9,27 +9,51 @@ namespace ParallelLoops
     {
         static void Main(string[] args)
         {
-            var a = new Action(() => Console.WriteLine($"First {Task.CurrentId}"));
-            var b = new Action(() => Console.WriteLine($"Second {Task.CurrentId}"));
-            var c = new Action(() => Console.WriteLine($"Third {Task.CurrentId}"));
-
-            Parallel.Invoke(a, b, c);
-
-            Parallel.For(1, 11, i =>
+            try
             {
-                // Console.WriteLine($"{i * i} \t");
-            });
-
-            Parallel.ForEach(Range(1, 20, 3), Console.WriteLine);
-
-            Console.ReadKey();
+                Demo();
+            }
+            catch (AggregateException ae)
+            {
+                ae.Handle(e =>
+                {
+                    Console.WriteLine(e.Message);
+                    return true;
+                });
+            }
+            catch (OperationCanceledException oce)
+            {
+                Console.WriteLine(oce.Message);
+            }
+            // Console.ReadKey();
         }
 
-        private static IEnumerable<int> Range(int start, int end, int step)
+        public static void Demo()
         {
-            for (int i = start; i < end; i += step)
+            var cts = new CancellationTokenSource();
+            var po = new ParallelOptions()
             {
-                yield return i;
+                CancellationToken = cts.Token
+            };
+
+            var result = Parallel.For(0, 20, po, (x, state) =>
+             {
+                 Console.WriteLine($"{x}[{Task.CurrentId}]");
+
+                 if (x == 10)
+                 {
+                    // throw new Exception();
+                    // state.Stop();   // Stop loop
+                    // state.Break();
+                    cts.Cancel();
+                 }
+             });
+
+            Console.WriteLine();
+            Console.WriteLine($"Was loop completed? {result.IsCompleted}");
+            if (result.LowestBreakIteration.HasValue)
+            {
+                Console.WriteLine($"Lowest break iteration is {result.LowestBreakIteration}");
             }
         }
     }
