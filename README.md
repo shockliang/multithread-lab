@@ -75,3 +75,5 @@
     * `SemaphoreSlim`
         * Counter `CurrentCount` decreased by `Wait()` and increased by `Release(N)`.
         * Can have a maximum.
+
+## Parallel Loops ## 
