@@ -77,3 +77,35 @@
         * Can have a maximum.
 
 ## Parallel Loops ## 
+* Parallel.For/Foreach are blocking calls
+    * Wait until threads completed or an exception occurred.
+* Can check the state of the loop as it is executing in `ParallelLoopState`.
+* Can check result of execution in `ParallelLoopResult`.
+* `ParallelLoopOption` let us customize execution with:
+    * Max degree of parallelism.
+    * Cancellation token.
+* `Parallel.Invoke`
+    * Run several provided functions concurrently.
+    * Is equivalent to:
+        * Creating a task for each lambda.
+        * Doing a `Task.WaitAll()` on all the tasks.
+* `Parallel.For`
+    * Uses an index [start; finish].
+    * Cannot provide a step.
+        * Create an `IEnumerable<int>` and use `Parallel.ForEach`
+    * Partitions data into different tasks.
+    * Execute provided delegate with counter value argument.
+        * Might be inefficient.
+* `Parallel.ForEach`
+    * Like `Parallel.For` but takes an `IEnumerable<T>` instead.
+    * If enumerator using `yeild return` that must watch out cause you're never going to find out how long the total number of elements is.
+* Thread local storage
+    * Writing to a shared variable from many tasks is inefficient.
+        * Interlocked every time.
+    * Can store partially evaluated results for each task.
+    * Can specify a function to integrate partial results into final result.
+* Partitioning
+    * Data is split into chunks by a `Partitioner`.
+    * Can create your own.
+    * Goal is improve performance.
+        * Void costly delegate creation calls.
