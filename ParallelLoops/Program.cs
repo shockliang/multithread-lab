@@ -9,52 +9,23 @@ namespace ParallelLoops
     {
         static void Main(string[] args)
         {
-            try
+            int sum = 0;
+
+            Parallel.For(1, 1001,
+            () => 0,
+            (x, state, tls) =>
             {
-                Demo();
-            }
-            catch (AggregateException ae)
+                tls += x;
+                Console.WriteLine($"Task {Task.CurrentId} has sum {tls}");
+                return tls;
+            },
+            partialSum =>
             {
-                ae.Handle(e =>
-                {
-                    Console.WriteLine(e.Message);
-                    return true;
-                });
-            }
-            catch (OperationCanceledException oce)
-            {
-                Console.WriteLine(oce.Message);
-            }
+                Console.WriteLine($"Partial value of task {Task.CurrentId} is {partialSum}");
+                Interlocked.Add(ref sum, partialSum);
+            });
+            Console.WriteLine($"Sum of 1 to 1000 = {sum}");
             // Console.ReadKey();
-        }
-
-        public static void Demo()
-        {
-            var cts = new CancellationTokenSource();
-            var po = new ParallelOptions()
-            {
-                CancellationToken = cts.Token
-            };
-
-            var result = Parallel.For(0, 20, po, (x, state) =>
-             {
-                 Console.WriteLine($"{x}[{Task.CurrentId}]");
-
-                 if (x == 10)
-                 {
-                    // throw new Exception();
-                    // state.Stop();   // Stop loop
-                    // state.Break();
-                    cts.Cancel();
-                 }
-             });
-
-            Console.WriteLine();
-            Console.WriteLine($"Was loop completed? {result.IsCompleted}");
-            if (result.LowestBreakIteration.HasValue)
-            {
-                Console.WriteLine($"Lowest break iteration is {result.LowestBreakIteration}");
-            }
         }
     }
 }
