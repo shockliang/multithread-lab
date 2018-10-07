@@ -9,33 +9,24 @@ namespace TaskCoordination
     {
         static void Main(string[] args)
         {
-            var evt = new AutoResetEvent(false); // Defautl: false
+            var semaphore = new SemaphoreSlim(2, 10);
 
-            Task.Factory.StartNew(() =>
+            for (int i = 0; i < 20; i++)
             {
-                Console.WriteLine("Boiling water");
-                evt.Set(); // set to true
-            });
+                Task.Factory.StartNew(() =>
+                {
+                    Console.WriteLine($"Entering task {Task.CurrentId}");
+                    semaphore.Wait();   // Release counter --
+                    Console.WriteLine($"Processing task {Task.CurrentId}");
+                });
+            }
 
-            var makeTea = Task.Factory.StartNew(() =>
+            while (semaphore.CurrentCount <= 2)
             {
-                Console.WriteLine("Waiting for water...");
-                evt.WaitOne(); // set to false and false
-                Console.WriteLine("Here is your tea");
-                var ok = evt.WaitOne(1000); // set to false with timeout
-                if(ok)
-                {
-                    Console.WriteLine("Enjoy your tea");
-                }
-                else 
-                {
-                    // Because no one to set to true so it blocked 
-                    Console.WriteLine("No tea for you"); 
-                }
-            });
-
-            makeTea.Wait();
-
+                Console.WriteLine($"Semaphore count: {semaphore.CurrentCount}");
+                Console.ReadKey();
+                semaphore.Release(2);   // Release counter += 2
+            }
             Console.ReadKey();
         }
     }
