@@ -41,6 +41,37 @@
     * Provides blocking and bounding capabilites.
 
 ## Task Coordination ##
-* `ContinueWith` api provides to continue next task.
-* `Task.Factory.ContinueWhenAll` provides api to waiting for all tasks.
-* `Task.Factory.ContinueWhenAny` provides api to waiting any first completed task.
+* Contiuation
+    * `ContinueWith` api provides to continue next task.
+        * Continuations can be conditional.
+            * TaskContinuationOptions.NotOnFaulted.
+        * Beware of waiting on continuations that might not occur by faulted. That will be waiting forever.
+    * `Task.Factory.ContinueWhenAll` provides api to waiting for all tasks.
+        * One-to-many continuations.
+    * `Task.Factory.ContinueWhenAny` provides api to waiting any first completed task.
+        * One-to-any continuations.
+        
+* Child task
+    * `TaskCreationOptions.AttachedToParent` for attach to parent.
+    * `TaskContinuationOptions.OnlyOnRanToCompletion` continue when task ran to completion.
+    * `TaskContinuationOptions.OnlyOnFaulted` continue when task ran to failted.
+
+* Synchronization Primitives
+    * All do same thing. 
+        * They have a counter.
+        * Let you execute N threads at a time.
+        * Other threads are unblocked until state changes.
+
+    * `Barrier`
+        * Blocks all threads until N are waiting , then lets those N through via `SignalAndWait()`.
+    * `CountdownEvent`
+        * Signaling and waiting separate; waits until signal level reaches 0, then unblocks.
+    * `ManualResetEventSlim`
+        * Like `CountdownEvent` with a count of 1.
+        * `Set()` to release all block threads. After `Set()` signaled, threads that call `WaitOne()` do not block.
+        * `Reset` starting block threads. 
+    * `AutoResetEvent`
+        * Resets after waiting.
+    * `SemaphoreSlim`
+        * Counter `CurrentCount` decreased by `Wait()` and increased by `Release(N)`.
+        * Can have a maximum.
