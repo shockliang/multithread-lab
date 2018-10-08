@@ -109,3 +109,6 @@
     * Can create your own.
     * Goal is improve performance.
         * Void costly delegate creation calls.
+
+
+## Parallel Linq ##
