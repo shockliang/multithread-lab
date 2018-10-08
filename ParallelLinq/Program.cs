@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ParallelLinq
@@ -8,30 +9,38 @@ namespace ParallelLinq
     {
         static void Main(string[] args)
         {
-            const int count = 50;
-            var items = Enumerable.Range(1, count).ToArray();
-            var results = new int[count];
+            var cts = new CancellationTokenSource();
 
-            items.AsParallel().ForAll(x =>
+            var items = ParallelEnumerable.Range(1, 20);
+            var results = items.WithCancellation(cts.Token).Select(i =>
             {
-                int newValue = x * x * x;
-                Console.Write($"{newValue} ({Task.CurrentId})\t");
-                results[x - 1] = newValue;
+                var result = Math.Log10(i);
+
+                // if (result > 1) throw new InvalidOperationException();
+
+                Console.WriteLine($"i = {i}, tid = {Task.CurrentId}");
+                return result;
             });
 
-            Console.WriteLine();
-
-            // foreach (var i in results)
-            // {
-            //     Console.WriteLine($"{i}\t");
-            // }
-
-            // Console.WriteLine();
-
-            var cubes = items.AsParallel().AsOrdered().Select(x => x * x * x);
-            foreach(var i in cubes)
+            try
             {
-                Console.Write($"{i}\t");
+                foreach (var c in results)
+                {
+                    if(c >1 ) cts.Cancel();
+                    Console.WriteLine($"Result = {c}");
+                }
+            }
+            catch (AggregateException ae)
+            {
+                ae.Handle(e =>
+                {
+                    Console.WriteLine($"{e.GetType().Name}: {e.Message}");
+                    return true;
+                });
+            }
+            catch(OperationCanceledException oce)
+            {
+                Console.WriteLine("Canceled");
             }
 
             Console.ReadKey();
