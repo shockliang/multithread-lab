@@ -9,40 +9,22 @@ namespace ParallelLinq
     {
         static void Main(string[] args)
         {
-            var cts = new CancellationTokenSource();
-
-            var items = ParallelEnumerable.Range(1, 20);
-            var results = items.WithCancellation(cts.Token).Select(i =>
-            {
-                var result = Math.Log10(i);
-
-                // if (result > 1) throw new InvalidOperationException();
-
-                Console.WriteLine($"i = {i}, tid = {Task.CurrentId}");
-                return result;
-            });
-
-            try
-            {
-                foreach (var c in results)
+            var numbers = Enumerable.Range(1, 20).ToArray();
+            var results = numbers
+                .AsParallel()
+                // .WithMergeOptions(ParallelMergeOptions.NotBuffered)  // Output result as soon as possible.
+                .WithMergeOptions(ParallelMergeOptions.FullyBuffered)   // Output fully bunch result.
+                .Select(x =>
                 {
-                    if(c >1 ) cts.Cancel();
-                    Console.WriteLine($"Result = {c}");
-                }
-            }
-            catch (AggregateException ae)
-            {
-                ae.Handle(e =>
-                {
-                    Console.WriteLine($"{e.GetType().Name}: {e.Message}");
-                    return true;
+                    var result = Math.Log10(x);
+                    Console.WriteLine($"P {result}\t");
+                    return result;
                 });
-            }
-            catch(OperationCanceledException oce)
-            {
-                Console.WriteLine("Canceled");
-            }
 
+            foreach (var result in results)
+            {
+                Console.WriteLine($"C {result}\t");
+            }
             Console.ReadKey();
         }
     }
