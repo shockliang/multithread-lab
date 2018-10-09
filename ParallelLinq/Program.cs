@@ -9,22 +9,19 @@ namespace ParallelLinq
     {
         static void Main(string[] args)
         {
-            var numbers = Enumerable.Range(1, 20).ToArray();
-            var results = numbers
-                .AsParallel()
-                // .WithMergeOptions(ParallelMergeOptions.NotBuffered)  // Output result as soon as possible.
-                .WithMergeOptions(ParallelMergeOptions.FullyBuffered)   // Output fully bunch result.
-                .Select(x =>
-                {
-                    var result = Math.Log10(x);
-                    Console.WriteLine($"P {result}\t");
-                    return result;
-                });
+            // var sum = Enumerable.Range(1, 1000).Sum();
 
-            foreach (var result in results)
-            {
-                Console.WriteLine($"C {result}\t");
-            }
+            // var sum = Enumerable.Range(1, 1000)
+            //     .Aggregate(0, (i, acc) => i + acc);
+
+            var sum = ParallelEnumerable.Range(1, 1000)
+                .Aggregate(
+                    0,
+                    (partialSum, i) => partialSum += i,
+                    (total, subTotal) => total += subTotal,
+                    i => i);
+
+            Console.WriteLine($"Sum = {sum}");
             Console.ReadKey();
         }
     }
