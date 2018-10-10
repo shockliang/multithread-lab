@@ -112,3 +112,12 @@
 
 
 ## Parallel Linq ##
+* Turn Linq query parallel by 
+    * Calling `AsParallel()` on an IEnumerable.
+    * Use a `ParallelEnumerable`
+* Use `WithCancellation()` to provide a cancellation token.
+* Catch
+    * `AggregateException`
+    * `OperationCanceledException` if expecting to cancel.
+* `WithMergeOptions(ParallelMergeOptions.xxx)` determine how soon produced result can be consumed.
+* Parallel version of `Aggregate` provides a syntax for custom per-task aggregation options.
