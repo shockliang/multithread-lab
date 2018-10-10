@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelLoops", "ParallelLo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelLinq", "ParallelLinq\ParallelLinq.csproj", "{BEF407CA-8A20-42DD-8C33-0F5EAC3F840D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncAndAwait", "AsyncAndAwait\AsyncAndAwait.csproj", "{64EE1319-E0BE-48EF-A8D7-DC8F9344ED8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -184,5 +186,17 @@ Global
 		{BEF407CA-8A20-42DD-8C33-0F5EAC3F840D}.Release|x64.Build.0 = Release|Any CPU
 		{BEF407CA-8A20-42DD-8C33-0F5EAC3F840D}.Release|x86.ActiveCfg = Release|Any CPU
 		{BEF407CA-8A20-42DD-8C33-0F5EAC3F840D}.Release|x86.Build.0 = Release|Any CPU
+		{64EE1319-E0BE-48EF-A8D7-DC8F9344ED8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64EE1319-E0BE-48EF-A8D7-DC8F9344ED8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64EE1319-E0BE-48EF-A8D7-DC8F9344ED8F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{64EE1319-E0BE-48EF-A8D7-DC8F9344ED8F}.Debug|x64.Build.0 = Debug|Any CPU
+		{64EE1319-E0BE-48EF-A8D7-DC8F9344ED8F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{64EE1319-E0BE-48EF-A8D7-DC8F9344ED8F}.Debug|x86.Build.0 = Debug|Any CPU
+		{64EE1319-E0BE-48EF-A8D7-DC8F9344ED8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64EE1319-E0BE-48EF-A8D7-DC8F9344ED8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64EE1319-E0BE-48EF-A8D7-DC8F9344ED8F}.Release|x64.ActiveCfg = Release|Any CPU
+		{64EE1319-E0BE-48EF-A8D7-DC8F9344ED8F}.Release|x64.Build.0 = Release|Any CPU
+		{64EE1319-E0BE-48EF-A8D7-DC8F9344ED8F}.Release|x86.ActiveCfg = Release|Any CPU
+		{64EE1319-E0BE-48EF-A8D7-DC8F9344ED8F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
