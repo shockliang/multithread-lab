@@ -121,3 +121,40 @@
     * `OperationCanceledException` if expecting to cancel.
 * `WithMergeOptions(ParallelMergeOptions.xxx)` determine how soon produced result can be consumed.
 * Parallel version of `Aggregate` provides a syntax for custom per-task aggregation options.
+
+## Async and await ##
+* What does await do?
+    * Registers continuation with the async operation.
+        * In other words, "code that follows me is a continuation, like `ContinueWith()`"
+    * Gives up the current thread.
+        * It's over. We no longer do anything on the current thread.
+        * The call happens on a thread from TPL thread pool.
+    * If `SynchroizationContext.Current` != null, ensures the continuation is also posted there(e.g., on the UI thread)
+        * If null, continuation scheduled using current task scheduler.
+        * This behavior can be customized right on the call.
+    * Coerces the result of the asynchronous operation.
+* `Task.Run`
+    * Equivalent to 
+        * Task.Factory.StartNew(something,
+            CancellationToken.None,
+            TaskCreationOptions.DenyChildAttach,
+            TaskScheduler.Default);
+    * Provides 8 overloads to support combinations of 
+        * Task vs Task<T>
+        * Cancelable vs Non-Cancelable.
+        * Synchronous vs asynchronous delegate.
+* `await` can be used a the language equivalent of `Unwrap()`
+* Task Utility Combinators
+    * Kind of like `Task.WaitAll/WaitAny`, but block the current thread.
+    * Crate brand new tasks (useful for async/await)
+    * `Task.WhenAny`
+        * Creates a task that will complete when any of the supplied tasks has completed.
+        * await Task.WhenAny(downloadFromHttp, downloadFromFtp); 
+    * `Task.WhenAll()`
+        * Creates a task that will complete when all of the supplied task have completed.
+        * await Task.WhneAll(measureTemperature, measurePressure);
+* Asynchronous programming is enableed with the `async` and `await` keywords.
+* Methods that `await` must be decorated with `async`.
+* When you await, you abandon current thread, fire up a new one and then do a context-preserving continuation of the code that's left.
+* You can call async method synchronously.
+* .net 4.5 gives us awaitable `Task.Delay` and combinators.
